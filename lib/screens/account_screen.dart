@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dart_exceptions/services/account_service.dart';
+import 'package:http/http.dart';
 
 import '../models/account.dart';
 
@@ -59,6 +60,9 @@ class AccountScreen {
     try {
       List<Account> listAccounts = await _accountService.getAll();
       print(listAccounts);
+    } on ClientException {
+      print("Não foi possível alcançar o servidor.");
+      print("Tente novamente mais tarde.");
     } on Exception {
       print("Não consegui recuperar os dados da conta.");
       print("Tente novamente mais tarde.");
