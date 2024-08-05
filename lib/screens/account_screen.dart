@@ -56,8 +56,13 @@ class AccountScreen {
   }
 
   _getAllAccounts() async {
-    List<Account> listAccounts = await _accountService.getAll();
-    print(listAccounts);
+    try {
+      List<Account> listAccounts = await _accountService.getAll();
+      print(listAccounts);
+    } on Exception {
+      print("Não consegui recuperar os dados da conta.");
+      print("Tente novamente mais tarde.");
+    }
   }
 
   _addExampleAccount() async {
