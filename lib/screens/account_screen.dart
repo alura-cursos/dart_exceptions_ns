@@ -68,7 +68,11 @@ class AccountScreen {
     } on Exception {
       print("Não consegui recuperar os dados da conta.");
       print("Tente novamente mais tarde.");
+    } finally {
+      print("${DateTime.now()} | Ocorreu uma tentativa de consulta.");
+      // Aqui vai rodar antes de fechar.
     }
+    // Aqui não vai rodar antes de fechar.
   }
 
   _addExampleAccount() async {
