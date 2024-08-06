@@ -9,25 +9,31 @@ class AccountService {
   final StreamController<String> _streamController = StreamController<String>();
   Stream<String> get streamInfos => _streamController.stream;
 
-  String url = "https://api.github.com/gists/413c0aefe6c6abc464581c29029c8ace";
+  String url =
+      "https://api.github.com.br/gists/413c0aefe6c6abc464581c29029c8ace";
 
   Future<List<Account>> getAll() async {
-    Response response = await get(Uri.parse(url));
-    _streamController.add("${DateTime.now()} | Requisição de leitura.");
+    try {
+      Response response = await get(Uri.parse(url));
+      _streamController.add("${DateTime.now()} | Requisição de leitura.");
 
-    Map<String, dynamic> mapResponse = json.decode(response.body);
-    List<dynamic> listDynamic =
-        json.decode(mapResponse["files"]["accounts.json"]["content"]);
+      Map<String, dynamic> mapResponse = json.decode(response.body);
+      List<dynamic> listDynamic =
+          json.decode(mapResponse["files"]["accounts.json"]["content"]);
 
-    List<Account> listAccounts = [];
+      List<Account> listAccounts = [];
 
-    for (dynamic dyn in listDynamic) {
-      Map<String, dynamic> mapAccount = dyn as Map<String, dynamic>;
-      Account account = Account.fromMap(mapAccount);
-      listAccounts.add(account);
+      for (dynamic dyn in listDynamic) {
+        Map<String, dynamic> mapAccount = dyn as Map<String, dynamic>;
+        Account account = Account.fromMap(mapAccount);
+        listAccounts.add(account);
+      }
+
+      return listAccounts;
+    } on Exception {
+      print("Se eu capturei a exceção no serviço, ela será lançada para tela?");
+      return [];
     }
-
-    return listAccounts;
   }
 
   addAccount(Account account) async {
