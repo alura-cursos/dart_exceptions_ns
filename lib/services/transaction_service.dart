@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:dart_exceptions/api_key.dart';
+import 'package:dart_exceptions/exceptions/transaction_exceptions.dart';
 import 'package:dart_exceptions/helpers/helper_taxes.dart';
 import 'package:dart_exceptions/models/account.dart';
 import 'package:dart_exceptions/models/transaction.dart';
@@ -20,7 +21,7 @@ class TransactionService {
     List<Account> listAccounts = await _accountService.getAll();
 
     if (listAccounts.where((acc) => acc.id == idSender).isEmpty) {
-      throw Exception("O remetente não existe.");
+      throw SenderNotExistsException();
     }
 
     Account senderAccount = listAccounts.firstWhere(
@@ -28,7 +29,7 @@ class TransactionService {
     );
 
     if (listAccounts.where((acc) => acc.id == idReceiver).isEmpty) {
-      throw Exception("O destinatário não existe.");
+      throw ReceiverNotExistsException();
     }
 
     Account receiverAccount = listAccounts.firstWhere(
@@ -41,7 +42,7 @@ class TransactionService {
     );
 
     if (senderAccount.balance < amount + taxes) {
-      throw Exception("O saldo é insuficiente.");
+      throw InsufficientFundsException();
     }
 
     senderAccount.balance -= (amount + taxes);
