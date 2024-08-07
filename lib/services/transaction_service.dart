@@ -20,7 +20,7 @@ class TransactionService {
     List<Account> listAccounts = await _accountService.getAll();
 
     if (listAccounts.where((acc) => acc.id == idSender).isEmpty) {
-      return null;
+      throw Exception("O remetente não existe.");
     }
 
     Account senderAccount = listAccounts.firstWhere(
@@ -28,7 +28,7 @@ class TransactionService {
     );
 
     if (listAccounts.where((acc) => acc.id == idReceiver).isEmpty) {
-      return null;
+      throw Exception("O destinatário não existe.");
     }
 
     Account receiverAccount = listAccounts.firstWhere(
@@ -41,7 +41,7 @@ class TransactionService {
     );
 
     if (senderAccount.balance < amount + taxes) {
-      return null;
+      throw Exception("O saldo é insuficiente.");
     }
 
     senderAccount.balance -= (amount + taxes);
