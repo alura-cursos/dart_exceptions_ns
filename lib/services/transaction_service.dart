@@ -42,7 +42,11 @@ class TransactionService {
     );
 
     if (senderAccount.balance < amount + taxes) {
-      throw InsufficientFundsException();
+      throw InsufficientFundsException(
+        cause: senderAccount,
+        amount: amount,
+        taxes: taxes,
+      );
     }
 
     senderAccount.balance -= (amount + taxes);
