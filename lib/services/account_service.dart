@@ -33,7 +33,10 @@ class AccountService {
   addAccount(Account account) async {
     List<Account> listAccounts = await getAll();
     listAccounts.add(account);
+    save(listAccounts, accountName: account.name);
+  }
 
+  save(List<Account> listAccounts, {String accountName = ""}) async {
     List<Map<String, dynamic>> listContent = [];
     for (Account account in listAccounts) {
       listContent.add(account.toMap());
@@ -57,10 +60,10 @@ class AccountService {
 
     if (response.statusCode.toString()[0] == "2") {
       _streamController.add(
-          "${DateTime.now()} | Requisição adição bem sucedida (${account.name}).");
+          "${DateTime.now()} | Requisição adição bem sucedida ($accountName).");
     } else {
       _streamController
-          .add("${DateTime.now()} | Requisição falhou (${account.name}).");
+          .add("${DateTime.now()} | Requisição falhou ($accountName).");
     }
   }
 }

@@ -5,7 +5,7 @@ void main() {
   TransactionService().makeTransaction(
     idSender: "ID001",
     idReceiver: "ID002",
-    amount: 5001,
+    amount: 5,
   );
   // AccountScreen accountScreen = AccountScreen();
   // accountScreen.initializeStream();
